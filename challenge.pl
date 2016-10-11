@@ -56,6 +56,11 @@ for(my $i = 0; $i < scalar(@ARGV); $i++)
         $min = $1;
         $max = 0;
     }
+    elsif($val =~ m/([0-9]+)/)
+    {
+        $min = $1;
+        $max = $min;
+    }
     elsif($val eq "all")
     {
         $min = 0;
