@@ -19,7 +19,7 @@ $| = 1;
 #                                                              #
 ################################################################
 
-my $TOTAL = 11;
+my $TOTAL = 12;
 my %summaries = (
     0 => "2 ^ 38",
     1 => "Alphabet Shift",
@@ -32,7 +32,8 @@ my %summaries = (
     8 => "Authentication",
     9 => "Connect The Dots",
     10 => "Look-And-Say",
-    11 => "Evil Hidden Within"
+    11 => "Evil Hidden Within",
+    12 => "!CHEATED! Dealing Evil"
 );
 
 for(my $i = 0; $i < scalar(@ARGV); $i++)
@@ -66,9 +67,27 @@ for(my $i = 0; $i < scalar(@ARGV); $i++)
         $min = 0;
         $max = $TOTAL;
     }
+    elsif($val eq "list")
+    {
+        my $output = "";
+        for(my $i = 0; $i < $TOTAL; $i++)
+        {
+            $output .= $i + 1 . ": " . $summaries{$i} . "\n";
+        }
+        die $output;
+    }
+    elsif($val eq "count")
+    {
+        die "$TOTAL\n";
+    }
     else
     {
         die "Invalid input please try again\n";
+    }
+
+    if($min < 0 || $min > $TOTAL || $max < 0 || $max > $TOTAL)
+    {
+        die "Parameters out of range. Please try again\n";
     }
 
     if($min <= $max)
@@ -106,6 +125,7 @@ sub switch {
     elsif ($val == 9) {nine();}
     elsif ($val == 10) {ten();}
     elsif ($val == 11) {eleven();}
+    elsif ($val == 12) {twelve();}
     else {print "Unregistered function: $val\n";}
 }
 
@@ -797,6 +817,30 @@ sub eleven {
 
     `rm cave.jpg`;
     `rm eleven.py`;
+}
+
+sub twelve {
+    `curl -O -s --user huge:file http://www.pythonchallenge.com/pc/return/evil2.gfx`;
+    open(OUT, ">twelve.py");
+
+    print OUT "import os\n\n";
+    print OUT "data = open(\"evil2.gfx\", \"rb\").read()\n";
+    print OUT "for i in range(5):\n";
+    print OUT "    open('%d.jpg' % i, 'wb').write(data[i::5])\n";
+    print OUT "    name = str(i) + '.jpg'\n";
+    print OUT "    os.system(\"start \" + name)\n";
+
+    close OUT;
+
+    `python twelve.py`;
+
+    print "Please press Enter to continue.";
+    <STDIN>;
+    print "Using my OCR and stitching algorithms, the answer is DISPROPORTIONAL!";
+
+    `rm *.jpg`;
+    `rm evil2.gfx`;
+    `rm twelve.py`;
 }
 
 sub printHeader {
